@@ -39004,7 +39004,7 @@ var ScriptManager = class {
 };
 function safeStringify(v) {
   try {
-    if (v instanceof Error) return v.stack ?? v.message;
+    if (v instanceof Error) return `${v.name}: ${v.message}${v.stack ? "\n" + v.stack : ""}`;
     return typeof v === "object" ? JSON.stringify(v) : String(v);
   } catch {
     return String(v);

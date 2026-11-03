@@ -141,52 +141,52 @@ const methods: Record<string, (args: any, userId: string) => Promise<unknown>> =
   },
 
   // ------------------------------------------------------------- world books
-  async 'wb.listBooks'() {
+  async 'wb.listBooks'(_a: any, userId: string) {
     const out: any[] = [];
     for (let offset = 0; ; offset += 200) {
-      const page = await S.world_books.list({ limit: 200, offset });
+      const page = await S.world_books.list({ limit: 200, offset, userId });
       out.push(...page.data.map((b: any) => ({ id: b.id, name: b.name })));
       if (out.length >= page.total || page.data.length === 0) break;
     }
     return out;
   },
-  async 'wb.listEntries'(a: { bookId: string }) {
+  async 'wb.listEntries'(a: { bookId: string }, userId: string) {
     const out: any[] = [];
     for (let offset = 0; ; offset += 200) {
-      const page = await S.world_books.entries.list(a.bookId, { limit: 200, offset });
+      const page = await S.world_books.entries.list(a.bookId, { limit: 200, offset, userId });
       out.push(...page.data);
       if (out.length >= page.total || page.data.length === 0) break;
     }
     return out;
   },
-  async 'wb.createBook'(a: { name: string }) {
-    const b = await S.world_books.create({ name: a.name });
+  async 'wb.createBook'(a: { name: string }, userId: string) {
+    const b = await S.world_books.create({ name: a.name }, userId);
     return { id: b.id, name: b.name };
   },
-  async 'wb.deleteBook'(a: { bookId: string }) {
-    return S.world_books.delete(a.bookId);
+  async 'wb.deleteBook'(a: { bookId: string }, userId: string) {
+    return S.world_books.delete(a.bookId, userId);
   },
-  async 'wb.createEntry'(a: { bookId: string; data: any }) {
-    return S.world_books.entries.create(a.bookId, a.data);
+  async 'wb.createEntry'(a: { bookId: string; data: any }, userId: string) {
+    return S.world_books.entries.create(a.bookId, a.data, userId);
   },
-  async 'wb.updateEntry'(a: { entryId: string; data: any }) {
-    return S.world_books.entries.update(a.entryId, a.data);
+  async 'wb.updateEntry'(a: { entryId: string; data: any }, userId: string) {
+    return S.world_books.entries.update(a.entryId, a.data, userId);
   },
-  async 'wb.deleteEntry'(a: { entryId: string }) {
-    return S.world_books.entries.delete(a.entryId);
+  async 'wb.deleteEntry'(a: { entryId: string }, userId: string) {
+    return S.world_books.entries.delete(a.entryId, userId);
   },
-  async 'wb.getGlobal'() {
-    return S.world_books.getGlobal();
+  async 'wb.getGlobal'(_a: any, userId: string) {
+    return S.world_books.getGlobal(userId);
   },
-  async 'wb.setGlobal'(a: { ids: string[] }) {
-    return S.world_books.setGlobal(a.ids);
+  async 'wb.setGlobal'(a: { ids: string[] }, userId: string) {
+    return S.world_books.setGlobal(a.ids, userId);
   },
-  async 'wb.getCharacterBooks'(a: { characterId: string }) {
-    const ch = await S.characters.get(a.characterId);
+  async 'wb.getCharacterBooks'(a: { characterId: string }, userId: string) {
+    const ch = await S.characters.get(a.characterId, userId);
     return ch?.world_book_ids ?? [];
   },
-  async 'wb.setCharacterBooks'(a: { characterId: string; ids: string[] }) {
-    await S.characters.update(a.characterId, { world_book_ids: a.ids });
+  async 'wb.setCharacterBooks'(a: { characterId: string; ids: string[] }, userId: string) {
+    await S.characters.update(a.characterId, { world_book_ids: a.ids }, userId);
     return true;
   },
 

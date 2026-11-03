@@ -118,52 +118,52 @@ var methods = {
     return { chat, global, character, preset };
   },
   // ------------------------------------------------------------- world books
-  async "wb.listBooks"() {
+  async "wb.listBooks"(_a, userId) {
     const out = [];
     for (let offset = 0; ; offset += 200) {
-      const page = await S.world_books.list({ limit: 200, offset });
+      const page = await S.world_books.list({ limit: 200, offset, userId });
       out.push(...page.data.map((b) => ({ id: b.id, name: b.name })));
       if (out.length >= page.total || page.data.length === 0) break;
     }
     return out;
   },
-  async "wb.listEntries"(a) {
+  async "wb.listEntries"(a, userId) {
     const out = [];
     for (let offset = 0; ; offset += 200) {
-      const page = await S.world_books.entries.list(a.bookId, { limit: 200, offset });
+      const page = await S.world_books.entries.list(a.bookId, { limit: 200, offset, userId });
       out.push(...page.data);
       if (out.length >= page.total || page.data.length === 0) break;
     }
     return out;
   },
-  async "wb.createBook"(a) {
-    const b = await S.world_books.create({ name: a.name });
+  async "wb.createBook"(a, userId) {
+    const b = await S.world_books.create({ name: a.name }, userId);
     return { id: b.id, name: b.name };
   },
-  async "wb.deleteBook"(a) {
-    return S.world_books.delete(a.bookId);
+  async "wb.deleteBook"(a, userId) {
+    return S.world_books.delete(a.bookId, userId);
   },
-  async "wb.createEntry"(a) {
-    return S.world_books.entries.create(a.bookId, a.data);
+  async "wb.createEntry"(a, userId) {
+    return S.world_books.entries.create(a.bookId, a.data, userId);
   },
-  async "wb.updateEntry"(a) {
-    return S.world_books.entries.update(a.entryId, a.data);
+  async "wb.updateEntry"(a, userId) {
+    return S.world_books.entries.update(a.entryId, a.data, userId);
   },
-  async "wb.deleteEntry"(a) {
-    return S.world_books.entries.delete(a.entryId);
+  async "wb.deleteEntry"(a, userId) {
+    return S.world_books.entries.delete(a.entryId, userId);
   },
-  async "wb.getGlobal"() {
-    return S.world_books.getGlobal();
+  async "wb.getGlobal"(_a, userId) {
+    return S.world_books.getGlobal(userId);
   },
-  async "wb.setGlobal"(a) {
-    return S.world_books.setGlobal(a.ids);
+  async "wb.setGlobal"(a, userId) {
+    return S.world_books.setGlobal(a.ids, userId);
   },
-  async "wb.getCharacterBooks"(a) {
-    const ch = await S.characters.get(a.characterId);
+  async "wb.getCharacterBooks"(a, userId) {
+    const ch = await S.characters.get(a.characterId, userId);
     return ch?.world_book_ids ?? [];
   },
-  async "wb.setCharacterBooks"(a) {
-    await S.characters.update(a.characterId, { world_book_ids: a.ids });
+  async "wb.setCharacterBooks"(a, userId) {
+    await S.characters.update(a.characterId, { world_book_ids: a.ids }, userId);
     return true;
   },
   // Full chat history (the frontend API can only read the last 200 messages).

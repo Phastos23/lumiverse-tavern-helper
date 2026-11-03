@@ -224,7 +224,7 @@ export class ScriptManager {
 
 function safeStringify(v: unknown): string {
   try {
-    if (v instanceof Error) return v.stack ?? v.message;
+    if (v instanceof Error) return `${v.name}: ${v.message}${v.stack ? '\n' + v.stack : ''}`;
     return typeof v === 'object' ? JSON.stringify(v) : String(v);
   } catch {
     return String(v);
