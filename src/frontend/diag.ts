@@ -86,6 +86,8 @@ function apiSurface(ctx: SpindleFrontendContext): Report {
     })(),
     hasState: !!c.state,
     messagesList: typeof c.messages?.list,
+    chatsGetMessages: typeof c.chats?.getMessages,
+    messagesGetRecent: typeof c.messages?.getRecent,
     charactersGet: typeof c.characters?.get,
     worldBooks: !!c.worldBooks,
     settings: !!c.settings,

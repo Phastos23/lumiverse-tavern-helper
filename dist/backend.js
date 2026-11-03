@@ -117,6 +117,22 @@ var methods = {
     ]);
     return { chat, global, character, preset };
   },
+  // Full chat history (the frontend API can only read the last 200 messages).
+  async "chat.list"(a) {
+    const list = await S.chat.getMessages(a.chatId);
+    return list.map((m, i) => ({
+      id: m.id,
+      index: typeof m.index_in_chat === "number" ? m.index_in_chat : i,
+      name: m.name ?? "",
+      is_user: m.role ? m.role === "user" : !!m.is_user,
+      role: m.role,
+      content: m.content ?? "",
+      hidden: !!(m.hidden ?? m.extra?.hidden),
+      swipe_id: m.swipe_id ?? 0,
+      swipes: Array.isArray(m.swipes) ? m.swipes : [],
+      extra: m.extra ?? {}
+    }));
+  },
   async "chat.create"(a) {
     const ids = [];
     for (const m of a.messages) {

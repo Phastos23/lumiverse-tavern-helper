@@ -4,10 +4,12 @@ import { Mirror } from '../src/frontend/mirror';
 import { normalizeTree } from '../src/frontend/scripts';
 
 const writes: any[] = [];
+let msgs: any[] = [];
 const rpc: any = {
   call: async (method: string, args: any) => {
     if (method === 'vars.snapshot') return { chat: { a: 1 }, global: {}, character: {}, preset: {} };
     if (method === 'vars.read') return {};
+    if (method === 'chat.list') return msgs.map(m => ({ id: m.id, index: m.index_in_chat, name: m.name, is_user: m.is_user, role: m.is_user ? 'user' : 'assistant', content: m.content, hidden: !!m.extra.hidden, swipe_id: 0, swipes: m.swipes, extra: m.extra }));
     if (method === 'chat.create') return args.messages.map((_: any, i: number) => `new${i}`);
     writes.push([method, args]);
     return true;
@@ -15,7 +17,7 @@ const rpc: any = {
   newId: () => 'id1',
   onPush: () => () => undefined,
 };
-const msgs = [0, 1, 2, 3].map(i => ({
+msgs = [0, 1, 2, 3].map(i => ({
   id: `m${i}`, index_in_chat: i, is_user: i % 2 === 0, name: i % 2 ? 'Bot' : 'Me', content: `msg ${i}`,
   swipe_id: 0, swipes: [`msg ${i}`], extra: i === 1 ? { hidden: true } : {},
 }));

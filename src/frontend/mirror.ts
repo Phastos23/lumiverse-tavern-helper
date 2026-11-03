@@ -71,32 +71,59 @@ export class Mirror {
   }
 
   async loadMessages(): Promise<void> {
-    const c = this.ctx as any;
-    if (!this.chatId || !c.messages?.list) {
+    if (!this.chatId) {
       this.messages = [];
       return;
     }
-    try {
-      const list = (await c.messages.list(this.chatId)) as any[];
-      this.messages = list
-        .slice()
-        .sort((a, b) => a.index_in_chat - b.index_in_chat)
-        .map((m, i) => ({
+    const raw = await this.fetchRawMessages(this.chatId);
+    if (!raw) return; // keep the previous mirror rather than wiping it on a transient failure
+    this.messages = raw
+      .slice()
+      .sort((a, b) => (a.index ?? a.index_in_chat ?? 0) - (b.index ?? b.index_in_chat ?? 0))
+      .map((m, i) => {
+        const isUser = m.is_user ?? m.role === 'user';
+        const role: MirrorMessage['role'] = m.role === 'system' || m.extra?.is_system ? 'system' : isUser ? 'user' : 'assistant';
+        return {
           id: m.id,
-          index: typeof m.index_in_chat === 'number' ? m.index_in_chat : i,
+          index: m.index ?? m.index_in_chat ?? i,
           name: m.name ?? '',
-          role: m.is_user ? 'user' : m.extra?.is_system ? 'system' : 'assistant',
+          role,
           content: m.content ?? '',
-          hidden: !!m.extra?.hidden,
+          hidden: !!(m.hidden ?? m.extra?.hidden),
           swipe_id: m.swipe_id ?? 0,
           swipes: Array.isArray(m.swipes) && m.swipes.length ? m.swipes : [m.content ?? ''],
           extra: m.extra ?? {},
-        }));
-      const u = this.messages.find(m => m.role === 'user');
-      if (u?.name) this.userName = u.name;
+        };
+      });
+    const u = this.messages.find(m => m.role === 'user');
+    if (u?.name) this.userName = u.name;
+  }
+
+  /**
+   * The backend returns the whole chat. The frontend APIs are fallbacks: they only reach the last 200 messages,
+   * and their shape differs between Lumiverse versions (a plain array, or a `{ data }` page).
+   */
+  private async fetchRawMessages(chatId: string): Promise<any[] | null> {
+    try {
+      return await this.rpc.call<any[]>('chat.list', { chatId }, 15_000);
     } catch (e) {
-      console.warn('[tavern_helper] failed to load messages', e);
+      console.warn('[tavern_helper] backend chat.list failed, trying frontend API', e);
     }
+    const c = this.ctx as any;
+    const attempts: Array<() => Promise<any>> = [
+      () => c.chats?.getMessages?.(chatId, { limit: 200, tail: true }),
+      () => c.messages?.list?.(chatId),
+    ];
+    for (const attempt of attempts) {
+      try {
+        const res = await attempt();
+        const list = Array.isArray(res) ? res : res?.data ?? res?.items;
+        if (Array.isArray(list)) return list;
+      } catch {
+        /* try next */
+      }
+    }
+    return null;
   }
 
   async loadCharacter(): Promise<void> {

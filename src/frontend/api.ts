@@ -467,8 +467,11 @@ export function createApi(env: Env) {
     on('CHAT_CHANGED', chatChanged);
     on('CHAT_SWITCHED', chatChanged);
     on('GENERATION_STARTED', p => bus.emit(tavern_events.GENERATION_STARTED, p?.type ?? 'normal', {}, false));
-    on('GENERATION_ENDED', async p => {
+    on('GENERATION_ENDED', async () => {
       await mirror.loadMessages();
+      const last = mirror.messageByIndex(mirror.lastMessageId);
+      // Lumiverse has no "message received" event; a finished generation that left an assistant message is the equivalent.
+      if (last && last.role === 'assistant') await bus.emit(tavern_events.MESSAGE_RECEIVED, last.index);
       await bus.emit(tavern_events.GENERATION_ENDED, mirror.lastMessageId);
     });
     on('GENERATION_STOPPED', () => bus.emit(tavern_events.GENERATION_STOPPED));

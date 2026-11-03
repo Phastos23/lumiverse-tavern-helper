@@ -6004,8 +6004,10 @@ function createApi(env) {
     on("CHAT_CHANGED", chatChanged);
     on("CHAT_SWITCHED", chatChanged);
     on("GENERATION_STARTED", (p) => bus.emit(tavern_events.GENERATION_STARTED, p?.type ?? "normal", {}, false));
-    on("GENERATION_ENDED", async (p) => {
+    on("GENERATION_ENDED", async () => {
       await mirror.loadMessages();
+      const last = mirror.messageByIndex(mirror.lastMessageId);
+      if (last && last.role === "assistant") await bus.emit(tavern_events.MESSAGE_RECEIVED, last.index);
       await bus.emit(tavern_events.GENERATION_ENDED, mirror.lastMessageId);
     });
     on("GENERATION_STOPPED", () => bus.emit(tavern_events.GENERATION_STOPPED));
@@ -38568,29 +38570,54 @@ var Mirror = class {
     }, delay);
   }
   async loadMessages() {
-    const c = this.ctx;
-    if (!this.chatId || !c.messages?.list) {
+    if (!this.chatId) {
       this.messages = [];
       return;
     }
-    try {
-      const list = await c.messages.list(this.chatId);
-      this.messages = list.slice().sort((a, b) => a.index_in_chat - b.index_in_chat).map((m, i) => ({
+    const raw = await this.fetchRawMessages(this.chatId);
+    if (!raw) return;
+    this.messages = raw.slice().sort((a, b) => (a.index ?? a.index_in_chat ?? 0) - (b.index ?? b.index_in_chat ?? 0)).map((m, i) => {
+      const isUser = m.is_user ?? m.role === "user";
+      const role = m.role === "system" || m.extra?.is_system ? "system" : isUser ? "user" : "assistant";
+      return {
         id: m.id,
-        index: typeof m.index_in_chat === "number" ? m.index_in_chat : i,
+        index: m.index ?? m.index_in_chat ?? i,
         name: m.name ?? "",
-        role: m.is_user ? "user" : m.extra?.is_system ? "system" : "assistant",
+        role,
         content: m.content ?? "",
-        hidden: !!m.extra?.hidden,
+        hidden: !!(m.hidden ?? m.extra?.hidden),
         swipe_id: m.swipe_id ?? 0,
         swipes: Array.isArray(m.swipes) && m.swipes.length ? m.swipes : [m.content ?? ""],
         extra: m.extra ?? {}
-      }));
-      const u = this.messages.find((m) => m.role === "user");
-      if (u?.name) this.userName = u.name;
+      };
+    });
+    const u = this.messages.find((m) => m.role === "user");
+    if (u?.name) this.userName = u.name;
+  }
+  /**
+   * The backend returns the whole chat. The frontend APIs are fallbacks: they only reach the last 200 messages,
+   * and their shape differs between Lumiverse versions (a plain array, or a `{ data }` page).
+   */
+  async fetchRawMessages(chatId) {
+    try {
+      return await this.rpc.call("chat.list", { chatId }, 15e3);
     } catch (e) {
-      console.warn("[tavern_helper] failed to load messages", e);
+      console.warn("[tavern_helper] backend chat.list failed, trying frontend API", e);
     }
+    const c = this.ctx;
+    const attempts = [
+      () => c.chats?.getMessages?.(chatId, { limit: 200, tail: true }),
+      () => c.messages?.list?.(chatId)
+    ];
+    for (const attempt of attempts) {
+      try {
+        const res = await attempt();
+        const list = Array.isArray(res) ? res : res?.data ?? res?.items;
+        if (Array.isArray(list)) return list;
+      } catch {
+      }
+    }
+    return null;
   }
   async loadCharacter() {
     const c = this.ctx;
@@ -38712,6 +38739,8 @@ function apiSurface(ctx) {
     })(),
     hasState: !!c.state,
     messagesList: typeof c.messages?.list,
+    chatsGetMessages: typeof c.chats?.getMessages,
+    messagesGetRecent: typeof c.messages?.getRecent,
     charactersGet: typeof c.characters?.get,
     worldBooks: !!c.worldBooks,
     settings: !!c.settings,
