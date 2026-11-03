@@ -27,6 +27,10 @@ export class Mirror {
   userName = 'User';
   messages: MirrorMessage[] = [];
   vars: Record<ScopeKey, Record<string, any>> = { chat: {}, global: {}, character: {}, preset: {} };
+  /** Worldbook name -> id, kept in memory so JSR's synchronous getWorldbookNames() works. */
+  worldbooks = new Map<string, string>();
+  globalWorldbookIds: string[] = [];
+  characterWorldbookIds: string[] = [];
   messageVars = new Map<string, Record<string, any>>();
   scriptVars = new Map<string, Record<string, any>>();
   extensionVars = new Map<string, Record<string, any>>();

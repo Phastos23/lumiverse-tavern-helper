@@ -6,7 +6,7 @@
   "scripts": {
     "build": "node build.mjs",
     "typecheck": "tsc -p .",
-    "test": "esbuild test/smoke.ts --bundle --platform=node --format=cjs --outfile=test/.smoke.cjs --log-level=error && node test/.smoke.cjs"
+    "test": "node test/run.mjs"
   },
   "keywords": [],
   "author": "",

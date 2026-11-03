@@ -4,8 +4,10 @@ import { EventBus, tavern_events } from './events';
 import { installHostGlobals, removeHostGlobals } from './hostglobals';
 import { Mirror } from './mirror';
 import { mountPanel } from './panel';
+import { startMessageRenderer } from './render';
 import { Rpc } from './rpc';
 import { ScriptManager } from './scripts';
+import { createWorldbookApi } from './worldbook';
 
 export function setup(ctx: SpindleFrontendContext) {
   const rpc = new Rpc(ctx);
@@ -20,6 +22,15 @@ export function setup(ctx: SpindleFrontendContext) {
   };
 
   const api = createApi({ ctx, rpc, mirror, bus, log });
+  const worldbooks = createWorldbookApi(rpc, mirror);
+  Object.assign(api.shared, worldbooks.fns, {
+    // Deprecated JS-Slash-Runner "lorebook" names that scripts still use.
+    getLorebooks: worldbooks.fns.getWorldbookNames,
+    getCharLorebooks: worldbooks.fns.getCharWorldbookNames,
+    createLorebook: (name: string) => worldbooks.fns.createWorldbook(name),
+    deleteLorebook: worldbooks.fns.deleteWorldbook,
+  });
+
   installHostGlobals({
     shared: api.shared as unknown as Record<string, unknown>,
     callers,
@@ -30,12 +41,35 @@ export function setup(ctx: SpindleFrontendContext) {
   });
 
   const unbridge = api.bridgeLumiverseEvents();
+  const refreshBooks = () => worldbooks.refreshBooks().catch(e => log('warn', 'could not load worldbooks', e));
+  const bookListener = bus.on(tavern_events.CHAT_CHANGED, refreshBooks, 'host');
   manager = new ScriptManager(ctx, { rpc, mirror, bus, api, callers });
-  const unmount = mountPanel(ctx, manager, rpc);
+  const prefs = { renderCodeBlocks: true };
+  const renderer = startMessageRenderer(ctx, { mirror, bus, api, callers }, { enabled: () => prefs.renderCodeBlocks });
+  const loadPrefs = async () => {
+    try {
+      const saved = await (ctx as any).settings?.get('prefs');
+      if (saved && typeof saved.renderCodeBlocks === 'boolean') prefs.renderCodeBlocks = saved.renderCodeBlocks;
+    } catch {
+      /* keep defaults */
+    }
+  };
+  const savePrefs = async () => {
+    try {
+      await (ctx as any).settings?.set('prefs', { ...prefs });
+    } catch {
+      /* ignore */
+    }
+    renderer.rescan();
+  };
+  const unmount = mountPanel(ctx, manager, rpc, { prefs, savePrefs });
 
   void (async () => {
+    await loadPrefs();
+    renderer.rescan();
     await manager!.load();
     await mirror.ready;
+    await refreshBooks();
     await manager!.sync();
     await bus.emit(tavern_events.APP_READY);
     log('info', 'ready');
@@ -43,7 +77,9 @@ export function setup(ctx: SpindleFrontendContext) {
 
   return () => {
     unmount();
+    renderer.stop();
     unbridge();
+    bookListener.stop();
     manager?.dispose();
     rpc.dispose();
     removeHostGlobals();

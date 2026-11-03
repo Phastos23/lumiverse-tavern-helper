@@ -117,6 +117,55 @@ var methods = {
     ]);
     return { chat, global, character, preset };
   },
+  // ------------------------------------------------------------- world books
+  async "wb.listBooks"() {
+    const out = [];
+    for (let offset = 0; ; offset += 200) {
+      const page = await S.world_books.list({ limit: 200, offset });
+      out.push(...page.data.map((b) => ({ id: b.id, name: b.name })));
+      if (out.length >= page.total || page.data.length === 0) break;
+    }
+    return out;
+  },
+  async "wb.listEntries"(a) {
+    const out = [];
+    for (let offset = 0; ; offset += 200) {
+      const page = await S.world_books.entries.list(a.bookId, { limit: 200, offset });
+      out.push(...page.data);
+      if (out.length >= page.total || page.data.length === 0) break;
+    }
+    return out;
+  },
+  async "wb.createBook"(a) {
+    const b = await S.world_books.create({ name: a.name });
+    return { id: b.id, name: b.name };
+  },
+  async "wb.deleteBook"(a) {
+    return S.world_books.delete(a.bookId);
+  },
+  async "wb.createEntry"(a) {
+    return S.world_books.entries.create(a.bookId, a.data);
+  },
+  async "wb.updateEntry"(a) {
+    return S.world_books.entries.update(a.entryId, a.data);
+  },
+  async "wb.deleteEntry"(a) {
+    return S.world_books.entries.delete(a.entryId);
+  },
+  async "wb.getGlobal"() {
+    return S.world_books.getGlobal();
+  },
+  async "wb.setGlobal"(a) {
+    return S.world_books.setGlobal(a.ids);
+  },
+  async "wb.getCharacterBooks"(a) {
+    const ch = await S.characters.get(a.characterId);
+    return ch?.world_book_ids ?? [];
+  },
+  async "wb.setCharacterBooks"(a) {
+    await S.characters.update(a.characterId, { world_book_ids: a.ids });
+    return true;
+  },
   // Full chat history (the frontend API can only read the last 200 messages).
   async "chat.list"(a) {
     const list = await S.chat.getMessages(a.chatId);

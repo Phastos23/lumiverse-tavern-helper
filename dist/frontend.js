@@ -722,7 +722,7 @@ var require_lodash = __commonJS({
         return string5.match(reUnicodeWord) || [];
       }
       var runInContext = (function runInContext2(context) {
-        context = context == null ? root : _3.defaults(root.Object(), context, _3.pick(root, contextProps));
+        context = context == null ? root : _4.defaults(root.Object(), context, _4.pick(root, contextProps));
         var Array2 = context.Array, Date2 = context.Date, Error2 = context.Error, Function2 = context.Function, Math2 = context.Math, Object2 = context.Object, RegExp2 = context.RegExp, String2 = context.String, TypeError2 = context.TypeError;
         var arrayProto = Array2.prototype, funcProto = Function2.prototype, objectProto = Object2.prototype;
         var coreJsData = context["__core-js_shared__"];
@@ -5514,17 +5514,17 @@ var require_lodash = __commonJS({
         }
         return lodash;
       });
-      var _3 = runInContext();
+      var _4 = runInContext();
       if (typeof define == "function" && typeof define.amd == "object" && define.amd) {
-        root._ = _3;
+        root._ = _4;
         define(function() {
-          return _3;
+          return _4;
         });
       } else if (freeModule) {
-        (freeModule.exports = _3)._ = _3;
-        freeExports._ = _3;
+        (freeModule.exports = _4)._ = _4;
+        freeExports._ = _4;
       } else {
-        root._ = _3;
+        root._ = _4;
       }
     }).call(exports);
   }
@@ -7738,7 +7738,7 @@ function jQueryFactory(window2, noGlobal) {
   });
   function createOptions(options) {
     var object2 = {};
-    jQuery2.each(options.match(rnothtmlwhite) || [], function(_3, flag) {
+    jQuery2.each(options.match(rnothtmlwhite) || [], function(_4, flag) {
       object2[flag] = true;
     });
     return object2;
@@ -7777,7 +7777,7 @@ function jQueryFactory(window2, noGlobal) {
             queue.push(memory);
           }
           (function add(args) {
-            jQuery2.each(args, function(_3, arg) {
+            jQuery2.each(args, function(_4, arg) {
               if (typeof arg === "function") {
                 if (!options.unique || !self2.has(arg)) {
                   list.push(arg);
@@ -7795,7 +7795,7 @@ function jQueryFactory(window2, noGlobal) {
       },
       // Remove a callback from the list
       remove: function() {
-        jQuery2.each(arguments, function(_3, arg) {
+        jQuery2.each(arguments, function(_4, arg) {
           var index;
           while ((index = jQuery2.inArray(arg, list, index)) > -1) {
             list.splice(index, 1);
@@ -10840,7 +10840,7 @@ function jQueryFactory(window2, noGlobal) {
     function inspect(dataType) {
       var selected;
       inspected[dataType] = true;
-      jQuery2.each(structure[dataType] || [], function(_3, prefilterOrFactory) {
+      jQuery2.each(structure[dataType] || [], function(_4, prefilterOrFactory) {
         var dataTypeOrTransport = prefilterOrFactory(options, originalOptions, jqXHR);
         if (typeof dataTypeOrTransport === "string" && !seekingTransport && !inspected[dataTypeOrTransport]) {
           options.dataTypes.unshift(dataTypeOrTransport);
@@ -11489,7 +11489,7 @@ function jQueryFactory(window2, noGlobal) {
     if (canUseScriptTag(s)) {
       var script, callback;
       return {
-        send: function(_3, complete) {
+        send: function(_4, complete) {
           script = jQuery2("<script>").attr(s.scriptAttrs || {}).prop({ charset: s.scriptCharset, src: s.url }).on("load error", callback = function(evt) {
             script.remove();
             callback = null;
@@ -13520,7 +13520,7 @@ var Pair = class _Pair {
       value = value.clone(schema4);
     return new _Pair(key, value);
   }
-  toJSON(_3, ctx) {
+  toJSON(_4, ctx) {
     const pair = ctx?.mapAsMap ? /* @__PURE__ */ new Map() : {};
     return addPairToJSMap(ctx, pair, this);
   }
@@ -13775,7 +13775,7 @@ var YAMLMap = class extends Collection {
    * @param {Class} Type - If set, forces the returned collection type
    * @returns Instance of Type, Map, or Object
    */
-  toJSON(_3, ctx, Type) {
+  toJSON(_4, ctx, Type) {
     const map3 = Type ? new Type() : ctx?.mapAsMap ? /* @__PURE__ */ new Map() : {};
     if (ctx?.onCreate)
       ctx.onCreate(map3);
@@ -13877,7 +13877,7 @@ var YAMLSeq = class extends Collection {
     else
       this.items[idx] = value;
   }
-  toJSON(_3, ctx) {
+  toJSON(_4, ctx) {
     const seq2 = [];
     if (ctx?.onCreate)
       ctx.onCreate(seq2);
@@ -14274,9 +14274,9 @@ var YAMLOMap = class _YAMLOMap extends YAMLSeq {
    * If `ctx` is given, the return type is actually `Map<unknown, unknown>`,
    * but TypeScript won't allow widening the signature of a child method.
    */
-  toJSON(_3, ctx) {
+  toJSON(_4, ctx) {
     if (!ctx)
-      return super.toJSON(_3);
+      return super.toJSON(_4);
     const map3 = /* @__PURE__ */ new Map();
     if (ctx?.onCreate)
       ctx.onCreate(map3);
@@ -14493,8 +14493,8 @@ var YAMLSet = class _YAMLSet extends YAMLMap {
       this.items.push(new Pair(key));
     }
   }
-  toJSON(_3, ctx) {
-    return super.toJSON(_3, ctx, Set);
+  toJSON(_4, ctx) {
+    return super.toJSON(_4, ctx, Set);
   }
   toString(ctx, onComment, onChompKeep) {
     if (!ctx)
@@ -19421,17 +19421,17 @@ function assertIs(_arg) {
 function assertNever(_x) {
   throw new Error("Unexpected value in exhaustive check");
 }
-function assert(_3) {
+function assert(_4) {
 }
 function getEnumValues(entries) {
   const numericValues = Object.values(entries).filter((v) => typeof v === "number");
-  const values = Object.entries(entries).filter(([k, _3]) => numericValues.indexOf(+k) === -1).map(([_3, v]) => v);
+  const values = Object.entries(entries).filter(([k, _4]) => numericValues.indexOf(+k) === -1).map(([_4, v]) => v);
   return values;
 }
 function joinValues(array2, separator = "|") {
   return array2.map((val) => stringifyPrimitive(val)).join(separator);
 }
-function jsonStringifyReplacer(_3, value) {
+function jsonStringifyReplacer(_4, value) {
   if (typeof value === "bigint")
     return value.toString();
   return value;
@@ -19610,7 +19610,7 @@ var allowsEval = /* @__PURE__ */ cached(() => {
     const F = Function;
     new F("");
     return true;
-  } catch (_3) {
+  } catch (_4) {
     return false;
   }
 });
@@ -19731,31 +19731,31 @@ function normalizeParams(_params) {
 function createTransparentProxy(getter) {
   let target;
   return new Proxy({}, {
-    get(_3, prop, receiver) {
+    get(_4, prop, receiver) {
       target ?? (target = getter());
       return Reflect.get(target, prop, receiver);
     },
-    set(_3, prop, value, receiver) {
+    set(_4, prop, value, receiver) {
       target ?? (target = getter());
       return Reflect.set(target, prop, value, receiver);
     },
-    has(_3, prop) {
+    has(_4, prop) {
       target ?? (target = getter());
       return Reflect.has(target, prop);
     },
-    deleteProperty(_3, prop) {
+    deleteProperty(_4, prop) {
       target ?? (target = getter());
       return Reflect.deleteProperty(target, prop);
     },
-    ownKeys(_3) {
+    ownKeys(_4) {
       target ?? (target = getter());
       return Reflect.ownKeys(target);
     },
-    getOwnPropertyDescriptor(_3, prop) {
+    getOwnPropertyDescriptor(_4, prop) {
       target ?? (target = getter());
       return Reflect.getOwnPropertyDescriptor(target, prop);
     },
-    defineProperty(_3, prop, descriptor) {
+    defineProperty(_4, prop, descriptor) {
       target ?? (target = getter());
       return Reflect.defineProperty(target, prop, descriptor);
     }
@@ -20024,7 +20024,7 @@ function issue(...args) {
   return { ...iss };
 }
 function cleanEnum(obj) {
-  return Object.entries(obj).filter(([k, _3]) => {
+  return Object.entries(obj).filter(([k, _4]) => {
     return Number.isNaN(Number.parseInt(k, 10));
   }).map((el) => el[1]);
 }
@@ -20215,7 +20215,7 @@ function $constructor(name, initializer3, proto, params) {
   const zodProto = {};
   function Internals(def) {
     this.def = def;
-    this.constr = _3;
+    this.constr = _4;
     this.traits = /* @__PURE__ */ new Set();
   }
   Internals.prototype = zodProto;
@@ -20246,7 +20246,7 @@ function $constructor(name, initializer3, proto, params) {
         members(target, protoMembers);
       }
     }
-    const proto2 = _3.prototype;
+    const proto2 = _4.prototype;
     for (const k in proto2) {
       if (!Object.prototype.hasOwnProperty.call(proto2, k))
         continue;
@@ -20259,7 +20259,7 @@ function $constructor(name, initializer3, proto, params) {
   class Definition extends Parent {
   }
   Object.defineProperty(Definition, "name", { value: name });
-  function _3(def) {
+  function _4(def) {
     const inst = params?.Parent ? newError(Definition) : this;
     init(inst, def);
     const deferred = inst._zod.deferred;
@@ -20274,16 +20274,16 @@ function $constructor(name, initializer3, proto, params) {
       pp(inst);
     return inst;
   }
-  Object.defineProperty(_3, "init", { value: init });
-  Object.defineProperty(_3, Symbol.hasInstance, {
+  Object.defineProperty(_4, "init", { value: init });
+  Object.defineProperty(_4, Symbol.hasInstance, {
     value: (inst) => {
       if (params?.Parent && inst instanceof params.Parent)
         return true;
       return inst?._zod?.traits?.has(name);
     }
   });
-  Object.defineProperty(_3, "name", { value: name });
-  return _3;
+  Object.defineProperty(_4, "name", { value: name });
+  return _4;
 }
 var $brand = /* @__PURE__ */ Symbol("zod_brand");
 var $ZodAsyncError = class extends Error {
@@ -21389,13 +21389,13 @@ var $ZodType = /* @__PURE__ */ $constructor("$ZodType", (inst, def) => {
           continue;
         }
         const currLen = payload.issues.length;
-        const _3 = ch._zod.check(payload);
-        if (_3 instanceof Promise && ctx?.async === false) {
+        const _4 = ch._zod.check(payload);
+        if (_4 instanceof Promise && ctx?.async === false) {
           throw new $ZodAsyncError();
         }
-        if (asyncResult || _3 instanceof Promise) {
+        if (asyncResult || _4 instanceof Promise) {
           asyncResult = (asyncResult ?? Promise.resolve()).then(async () => {
-            await _3;
+            await _4;
             const nextLen = payload.issues.length;
             if (nextLen === currLen)
               return;
@@ -21476,7 +21476,7 @@ function standardProps(inst) {
         const r = inst._zod.run({ value, issues: [] }, ctx);
         if (!(r instanceof Promise))
           return toStandardResult(r, ctx);
-      } catch (_3) {
+      } catch (_4) {
       }
       return validateAsync2(inst, value);
     },
@@ -21487,11 +21487,11 @@ function standardProps(inst) {
 var $ZodString = /* @__PURE__ */ $constructor("$ZodString", (inst, def) => {
   $ZodType.init(inst, def);
   inst._zod.pattern = def.pattern ?? anyString;
-  inst._zod.parse = (payload, _3) => {
+  inst._zod.parse = (payload, _4) => {
     if (def.coerce)
       try {
         payload.value = String(payload.value);
-      } catch (_4) {
+      } catch (_5) {
       }
     if (typeof payload.value === "string")
       return payload;
@@ -21636,7 +21636,7 @@ var $ZodURL = /* @__PURE__ */ $constructor("$ZodURL", (inst, def) => {
       }
       payload.value = def.normalize ? url2.href : stripTabAndNewline(trimmed);
       return;
-    } catch (_3) {
+    } catch (_4) {
       payload.issues.push({
         code: "invalid_format",
         format: "url",
@@ -21932,7 +21932,7 @@ var $ZodNumber = /* @__PURE__ */ $constructor("$ZodNumber", (inst, def) => {
     if (def.coerce)
       try {
         payload.value = Number(payload.value);
-      } catch (_3) {
+      } catch (_4) {
       }
     const input2 = payload.value;
     if (typeof input2 === "number" && !Number.isNaN(input2) && Number.isFinite(input2)) {
@@ -21960,7 +21960,7 @@ var $ZodBoolean = /* @__PURE__ */ $constructor("$ZodBoolean", (inst, def) => {
     if (def.coerce)
       try {
         payload.value = Boolean(payload.value);
-      } catch (_3) {
+      } catch (_4) {
       }
     const input2 = payload.value;
     if (typeof input2 === "boolean")
@@ -21981,7 +21981,7 @@ var $ZodBigInt = /* @__PURE__ */ $constructor("$ZodBigInt", (inst, def) => {
     if (def.coerce)
       try {
         payload.value = BigInt(payload.value);
-      } catch (_3) {
+      } catch (_4) {
       }
     if (typeof payload.value === "bigint")
       return payload;
@@ -23764,7 +23764,7 @@ var $ZodLazy = /* @__PURE__ */ $constructor("$ZodLazy", (inst, def) => {
 var $ZodCustom = /* @__PURE__ */ $constructor("$ZodCustom", (inst, def) => {
   $ZodCheck.init(inst, def);
   $ZodType.init(inst, def);
-  inst._zod.parse = (payload, _3) => {
+  inst._zod.parse = (payload, _4) => {
     return payload;
   };
   inst._zod.check = (payload) => {
@@ -35482,7 +35482,7 @@ var nonoptionalProcessor = (schema4, ctx, _json, params) => {
 var UNREPRESENTABLE_DEFAULT = /* @__PURE__ */ Symbol();
 function serializeDefaultValue(value, schema4, ctx, json2, params) {
   let unrepresentable = false;
-  const serialized = JSON.stringify(value, (_3, val) => {
+  const serialized = JSON.stringify(value, (_4, val) => {
     if (typeof val !== "bigint")
       return val;
     unrepresentable = true;
@@ -35607,7 +35607,7 @@ function toJSONSchema(input2, params) {
     const ctx2 = initializeContext({ ...params, processors: allProcessors });
     const defs = {};
     for (const entry of registry2._idmap.entries()) {
-      const [_3, schema4] = entry;
+      const [_4, schema4] = entry;
       processSchema(schema4, ctx2);
     }
     const schemas2 = {};
@@ -35709,7 +35709,7 @@ var JSONSchemaGenerator = class {
     this.ctx.sharedEmitDoneFor = void 0;
     extractDefs(this.ctx, schema4);
     const result = finalize(this.ctx, schema4);
-    const { "~standard": _3, ...plainResult } = result;
+    const { "~standard": _4, ...plainResult } = result;
     return plainResult;
   }
 };
@@ -38537,6 +38537,10 @@ var Mirror = class {
   userName = "User";
   messages = [];
   vars = { chat: {}, global: {}, character: {}, preset: {} };
+  /** Worldbook name -> id, kept in memory so JSR's synchronous getWorldbookNames() works. */
+  worldbooks = /* @__PURE__ */ new Map();
+  globalWorldbookIds = [];
+  characterWorldbookIds = [];
   messageVars = /* @__PURE__ */ new Map();
   scriptVars = /* @__PURE__ */ new Map();
   extensionVars = /* @__PURE__ */ new Map();
@@ -38829,6 +38833,14 @@ ${safeInline(unfence(content))}
 </body>
 </html>`;
 }
+function buildMessageDoc(content) {
+  const inject = `<script>${safeInline(PREDEFINE)}<\/script>`;
+  const base = `<style>*,*::before,*::after{box-sizing:border-box}html,body{margin:0;padding:0;max-width:100%}</style>`;
+  const text = unfence(content);
+  if (/<head[\s>]/i.test(text)) return text.replace(/<head([^>]*)>/i, `<head$1>${inject}${base}`);
+  if (/<html[\s>]/i.test(text)) return text.replace(/<html([^>]*)>/i, `<html$1><head>${inject}${base}</head>`);
+  return `<!DOCTYPE html><html><head><meta charset="utf-8">${inject}${base}</head><body>${text}</body></html>`;
+}
 
 // src/frontend/scripts.ts
 var uuid3 = () => typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID() : "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
@@ -39027,7 +39039,7 @@ function pickTextFile() {
     input2.click();
   });
 }
-function mountPanel(ctx, mgr, rpc) {
+function mountPanel(ctx, mgr, rpc, opts) {
   const tab = ctx.ui.registerDrawerTab({
     id: "tavern_helper",
     title: "Tavern Helper",
@@ -39116,6 +39128,7 @@ function mountPanel(ctx, mgr, rpc) {
     );
   }
   function render() {
+    renderCheck.checked = opts.prefs.renderCodeBlocks;
     buttonsBox.replaceChildren(
       ...mgr.buttons().map(
         ({ script, button }) => h("button", { style: BTN + ";margin:2px", textContent: button.name, title: script.name, onclick: () => mgr.clickButton(script, button) })
@@ -39128,6 +39141,17 @@ function mountPanel(ctx, mgr, rpc) {
     logBox.textContent = mgr.logs.slice(-120).map((l) => `${new Date(l.time).toLocaleTimeString()} [${l.level}] ${names.get(l.scriptId) ?? l.scriptId}: ${l.text}`).join("\n");
     logBox.scrollTop = logBox.scrollHeight;
   }
+  const renderCheck = h("input", { type: "checkbox", checked: opts.prefs.renderCodeBlocks });
+  renderCheck.onchange = async () => {
+    opts.prefs.renderCodeBlocks = renderCheck.checked;
+    await opts.savePrefs();
+  };
+  const renderToggle = h(
+    "label",
+    { style: "display:flex;gap:6px;align-items:center;margin:6px 0;font-size:12px" },
+    renderCheck,
+    "Render HTML code blocks in messages as live frames"
+  );
   const addBtn = h("button", {
     style: BTN,
     textContent: "+ New script",
@@ -39187,6 +39211,7 @@ function mountPanel(ctx, mgr, rpc) {
       style: "opacity:.75;font-size:12px;margin-bottom:8px"
     }),
     buttonsBox,
+    renderToggle,
     h("div", { style: "margin:8px 0" }, addBtn, importBtn, exportAll),
     listBox,
     h("h4", { textContent: "Console", style: "margin:12px 0 4px" }),
@@ -39201,6 +39226,144 @@ function mountPanel(ctx, mgr, rpc) {
   return () => {
     off();
     tab.destroy();
+  };
+}
+
+// src/frontend/render.ts
+function looksRenderable(code) {
+  return /<\s*(?:!doctype|html|head|body|script|style)\b/i.test(code) || /<\s*(?:div|section|table|canvas|svg|button|details)\b[^>]*\bstyle\s*=/i.test(code);
+}
+function replaceVh(content) {
+  const toVar = (v) => v.replace(/(\d+(?:\.\d+)?)vh\b/gi, (_m, n) => {
+    const x = parseFloat(n);
+    return x === 100 ? "var(--TH-viewport-height)" : `calc(var(--TH-viewport-height) * ${x / 100})`;
+  });
+  return content.replace(/(min-height\s*:\s*)([^;{}"']*?\d+(?:\.\d+)?vh)(?=\s*[;}"'])/gi, (_m, p, v) => p + toVar(v)).replace(/(\.style\.minHeight\s*=\s*(["']))([^"']*?vh)(\2)/gi, (m, p, _q, v, s) => /\d+(?:\.\d+)?vh/i.test(v) ? p + toVar(v) + s : m);
+}
+function startMessageRenderer(ctx, env, options) {
+  const { mirror, bus, api, callers } = env;
+  const states = /* @__PURE__ */ new Map();
+  const pending = /* @__PURE__ */ new Map();
+  const STABLE_MS = 700;
+  let scanTimer = null;
+  let counter = 0;
+  const wrapperOf = (pre) => {
+    const parent = pre.parentElement;
+    return parent && /codeBlock/i.test(parent.className) ? parent : pre;
+  };
+  function destroy(pre) {
+    const st = states.get(pre);
+    if (!st) return;
+    clearTimeout(st.timer);
+    st.ro?.disconnect();
+    bus.clearOwner(st.owner);
+    callers.delete(st.callerName);
+    st.frame.remove();
+    st.wrapper.style.removeProperty("display");
+    states.delete(pre);
+  }
+  function mount(pre, code, messageId) {
+    const wrapper = wrapperOf(pre);
+    const msg = mirror.messages.find((m) => m.id === messageId);
+    const messageIndex = msg?.index ?? -1;
+    const n = ++counter;
+    const callerName = `TH-message--${messageIndex}--${n}`;
+    const owner = `msg:${messageId}:${n}`;
+    callers.set(callerName, {
+      mode: "message",
+      scriptId: callerName,
+      api: api.bindFor({ owner, iframeName: callerName, messageId: messageIndex, scriptId: callerName, scriptName: callerName })
+    });
+    const frame = document.createElement("iframe");
+    frame.name = callerName;
+    frame.id = callerName;
+    frame.setAttribute("data-th-message-frame", messageId);
+    frame.style.cssText = "width:100%;border:0;display:block;overflow:hidden;background:transparent;min-height:24px";
+    frame.srcdoc = buildMessageDoc(replaceVh(code));
+    wrapper.style.display = "none";
+    wrapper.after(frame);
+    const st = { frame, wrapper, pre, code, callerName, owner };
+    states.set(pre, st);
+    void bus.emit(iframe_events.MESSAGE_IFRAME_RENDER_STARTED, callerName);
+    frame.addEventListener("load", () => {
+      const doc = frame.contentDocument;
+      if (!doc) return;
+      const setVh = () => doc.documentElement.style.setProperty("--TH-viewport-height", `${window.innerHeight}px`);
+      setVh();
+      window.addEventListener("resize", setVh);
+      const fit = () => {
+        const h2 = Math.max(doc.documentElement.scrollHeight, doc.body?.scrollHeight ?? 0);
+        if (h2 > 0) frame.style.height = `${h2}px`;
+      };
+      fit();
+      st.ro = new ResizeObserver(fit);
+      st.ro.observe(doc.documentElement);
+      if (doc.body) st.ro.observe(doc.body);
+      void bus.emit(iframe_events.MESSAGE_IFRAME_RENDER_ENDED, callerName);
+    });
+  }
+  function scan() {
+    scanTimer = null;
+    if (!options.enabled()) {
+      for (const pre of [...states.keys()]) destroy(pre);
+      return;
+    }
+    for (const pre of [...states.keys()]) if (!pre.isConnected) destroy(pre);
+    for (const pre of [...pending.keys()]) if (!pre.isConnected) pending.delete(pre);
+    const now = Date.now();
+    let needAnotherScan = false;
+    for (const pre of Array.from(document.querySelectorAll("[data-message-id] pre"))) {
+      const messageId = ctx.dom.getMessageId(pre);
+      if (!messageId) continue;
+      const code = (pre.querySelector("code") ?? pre).textContent ?? "";
+      const st = states.get(pre);
+      if (st) {
+        if (!st.frame.isConnected) {
+          destroy(pre);
+        } else if (st.code !== code) {
+          clearTimeout(st.timer);
+          st.timer = setTimeout(() => {
+            destroy(pre);
+            scheduleScan(0);
+          }, STABLE_MS);
+          continue;
+        } else {
+          continue;
+        }
+      }
+      if (!looksRenderable(code)) continue;
+      const p = pending.get(pre);
+      if (!p || p.code !== code) {
+        pending.set(pre, { code, since: now });
+        needAnotherScan = true;
+        continue;
+      }
+      if (now - p.since < STABLE_MS) {
+        needAnotherScan = true;
+        continue;
+      }
+      pending.delete(pre);
+      mount(pre, code, messageId);
+    }
+    if (needAnotherScan) scheduleScan(STABLE_MS / 2);
+  }
+  function scheduleScan(delay = 150) {
+    if (scanTimer) return;
+    scanTimer = setTimeout(scan, delay);
+  }
+  const observer = new MutationObserver((records) => {
+    if (records.every((r) => r.target.closest?.("[data-th-message-frame]"))) return;
+    scheduleScan();
+  });
+  observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+  scheduleScan(300);
+  return {
+    rescan: () => scheduleScan(0),
+    stop() {
+      observer.disconnect();
+      if (scanTimer) clearTimeout(scanTimer);
+      for (const pre of [...states.keys()]) destroy(pre);
+    }
   };
 }
 
@@ -39252,6 +39415,235 @@ var Rpc = class {
   }
 };
 
+// src/frontend/worldbook.ts
+var import_lodash3 = __toESM(require_lodash(), 1);
+var POSITION_TO_CODE = {
+  before_character_definition: 0,
+  after_character_definition: 1,
+  before_author_note: 2,
+  after_author_note: 3,
+  at_depth: 4,
+  before_example_messages: 5,
+  after_example_messages: 6,
+  outlet: 7
+};
+var CODE_TO_POSITION = import_lodash3.default.invert(POSITION_TO_CODE);
+var LOGIC_TO_LUMI = { and_any: 2, not_all: 3, not_any: 1, and_all: 0 };
+var LUMI_TO_LOGIC = { 2: "and_any", 3: "not_all", 1: "not_any", 0: "and_all" };
+var keyToString = (k) => k instanceof RegExp ? k.toString() : String(k);
+var looksLikeRegexKey = (k) => /^\/.+\/[a-z]*$/.test(k);
+function toJsrEntry(e, uidFor) {
+  const keysSecondary = e.keysecondary ?? [];
+  const asKey = (k) => {
+    if (e.use_regex && looksLikeRegexKey(k)) {
+      const m = k.match(/^\/(.+)\/([a-z]*)$/);
+      try {
+        return new RegExp(m[1], m[2]);
+      } catch {
+        return k;
+      }
+    }
+    return k;
+  };
+  return {
+    uid: uidFor(e),
+    name: e.comment ?? "",
+    enabled: !e.disabled,
+    strategy: {
+      type: e.vectorized ? "vectorized" : e.constant ? "constant" : "selective",
+      keys: (e.key ?? []).map(asKey),
+      keys_secondary: { logic: LUMI_TO_LOGIC[e.selective_logic ?? 0] ?? "and_any", keys: keysSecondary.map(asKey) },
+      scan_depth: typeof e.scan_depth === "number" && e.scan_depth > 0 ? e.scan_depth : "same_as_global"
+    },
+    position: {
+      type: CODE_TO_POSITION[String(e.position ?? 4)] ?? "at_depth",
+      role: e.role === "user" || e.role === "assistant" ? e.role : "system",
+      depth: e.depth ?? 4,
+      order: e.order_value ?? 100
+    },
+    content: e.content ?? "",
+    probability: e.use_probability === false ? 100 : e.probability ?? 100,
+    recursion: {
+      prevent_incoming: !!e.exclude_recursion,
+      prevent_outgoing: !!e.prevent_recursion,
+      delay_until: e.delay_until_recursion ? 1 : null
+    },
+    effect: {
+      sticky: e.sticky > 0 ? e.sticky : null,
+      cooldown: e.cooldown > 0 ? e.cooldown : null,
+      delay: e.delay > 0 ? e.delay : null
+    },
+    ...e.extensions && Object.keys(e.extensions).length ? { extra: e.extensions } : {}
+  };
+}
+function toLumiverseEntry(entry, opts) {
+  const out = {};
+  const has = (path) => import_lodash3.default.has(entry, path);
+  const full = !opts.partial;
+  if (has("uid")) out.uid = String(entry.uid);
+  if (has("name") || full) out.comment = entry.name ?? "";
+  if (has("enabled") || full) out.disabled = !(entry.enabled ?? true);
+  if (has("strategy.type") || full) {
+    const t = entry.strategy?.type ?? "constant";
+    out.constant = t === "constant";
+    out.vectorized = t === "vectorized";
+    out.selective = t === "selective";
+  }
+  const keys = entry.strategy?.keys;
+  const sec = entry.strategy?.keys_secondary?.keys;
+  if (keys || full) out.key = (keys ?? []).map(keyToString);
+  if (sec || full) out.keysecondary = (sec ?? []).map(keyToString);
+  if (keys || sec) {
+    const anyRegex = [...keys ?? [], ...sec ?? []].some((k) => k instanceof RegExp || looksLikeRegexKey(String(k)));
+    if (anyRegex) out.use_regex = true;
+  }
+  if (has("strategy.keys_secondary.logic") || full) out.selective_logic = LOGIC_TO_LUMI[entry.strategy?.keys_secondary?.logic ?? "and_any"] ?? 2;
+  if (has("strategy.scan_depth") || full) {
+    const d = entry.strategy?.scan_depth;
+    out.scan_depth = typeof d === "number" ? d : null;
+  }
+  if (has("position.type") || full) out.position = POSITION_TO_CODE[entry.position?.type] ?? 4;
+  if (has("position.role") || full) out.role = entry.position?.role ?? "system";
+  if (has("position.depth") || full) out.depth = entry.position?.depth ?? 4;
+  if (has("position.order") || full) out.order_value = entry.position?.order ?? 100;
+  if (has("content") || full) out.content = entry.content ?? "";
+  if (has("probability") || full) {
+    out.probability = entry.probability ?? 100;
+    out.use_probability = true;
+  }
+  if (has("recursion.prevent_incoming") || full) out.exclude_recursion = !!entry.recursion?.prevent_incoming;
+  if (has("recursion.prevent_outgoing") || full) out.prevent_recursion = !!entry.recursion?.prevent_outgoing;
+  if (has("recursion.delay_until") || full) out.delay_until_recursion = !!entry.recursion?.delay_until;
+  if (has("effect.sticky") || full) out.sticky = entry.effect?.sticky ?? 0;
+  if (has("effect.cooldown") || full) out.cooldown = entry.effect?.cooldown ?? 0;
+  if (has("effect.delay") || full) out.delay = entry.effect?.delay ?? 0;
+  if (has("extra")) out.extensions = entry.extra;
+  return out;
+}
+function createWorldbookApi(rpc, mirror) {
+  const books = () => mirror.worldbooks;
+  const idOf = (name) => {
+    const id = books().get(name);
+    if (!id) throw new Error(`Worldbook "${name}" does not exist`);
+    return id;
+  };
+  async function refreshBooks() {
+    const list = await rpc.call("wb.listBooks");
+    mirror.worldbooks = new Map(list.map((b) => [b.name, b.id]));
+    mirror.globalWorldbookIds = await rpc.call("wb.getGlobal").catch(() => mirror.globalWorldbookIds);
+    if (mirror.characterId) {
+      mirror.characterWorldbookIds = await rpc.call("wb.getCharacterBooks", { characterId: mirror.characterId }).catch(() => []);
+    }
+  }
+  const uidMap = /* @__PURE__ */ new Map();
+  const uidFor = (e) => {
+    const n = Number(e.uid);
+    if (Number.isFinite(n) && String(n) === String(e.uid)) return n;
+    if (!uidMap.has(e.id)) uidMap.set(e.id, 1e6 + uidMap.size);
+    return uidMap.get(e.id);
+  };
+  async function rawEntries(name) {
+    return rpc.call("wb.listEntries", { bookId: idOf(name) });
+  }
+  async function getWorldbook(name) {
+    return (await rawEntries(name)).map((e) => toJsrEntry(e, uidFor)).sort((a, b) => a.uid - b.uid);
+  }
+  async function replaceWorldbook(name, entries) {
+    const bookId = idOf(name);
+    const existing = await rawEntries(name);
+    const byUid = new Map(existing.map((e) => [uidFor(e), e]));
+    const used = /* @__PURE__ */ new Set();
+    let next = Math.max(0, ...existing.map(uidFor), ...entries.map((e) => typeof e.uid === "number" ? e.uid : 0)) + 1;
+    for (const entry of entries) {
+      let uid = typeof entry.uid === "number" && !used.has(entry.uid) ? entry.uid : next++;
+      used.add(uid);
+      const match = byUid.get(uid);
+      if (match) {
+        await rpc.call("wb.updateEntry", { entryId: match.id, data: toLumiverseEntry({ ...entry, uid }, { partial: true }) });
+      } else {
+        await rpc.call("wb.createEntry", { bookId, data: toLumiverseEntry({ ...entry, uid }, { partial: false }) });
+      }
+    }
+    for (const [uid, e] of byUid) if (!used.has(uid)) await rpc.call("wb.deleteEntry", { entryId: e.id });
+  }
+  async function createWorldbook(name, entries = []) {
+    if (books().has(name)) return false;
+    const b = await rpc.call("wb.createBook", { name });
+    books().set(b.name, b.id);
+    if (entries.length) await replaceWorldbook(name, entries);
+    return true;
+  }
+  const fns = {
+    getWorldbookNames: () => [...books().keys()],
+    getGlobalWorldbookNames: () => {
+      const byId = new Map([...books()].map(([n, id]) => [id, n]));
+      return mirror.globalWorldbookIds.map((id) => byId.get(id)).filter((n) => !!n);
+    },
+    rebindGlobalWorldbooks: async (names) => {
+      const ids = names.map(idOf);
+      mirror.globalWorldbookIds = await rpc.call("wb.setGlobal", { ids });
+    },
+    getCharWorldbookNames: (character) => {
+      if (character !== "current") throw new Error('getCharWorldbookNames: only "current" is supported on Lumiverse');
+      const byId = new Map([...books()].map(([n, id]) => [id, n]));
+      const names = mirror.characterWorldbookIds.map((id) => byId.get(id)).filter((n) => !!n);
+      return { primary: names[0] ?? null, additional: names.slice(1) };
+    },
+    rebindCharWorldbooks: async (character, cw) => {
+      if (character !== "current") throw new Error('rebindCharWorldbooks: only "current" is supported on Lumiverse');
+      if (!mirror.characterId) throw new Error("No active character");
+      const ids = [cw.primary, ...cw.additional].filter((n) => !!n).map(idOf);
+      await rpc.call("wb.setCharacterBooks", { characterId: mirror.characterId, ids });
+      mirror.characterWorldbookIds = ids;
+    },
+    getWorldbook,
+    createWorldbook,
+    createOrReplaceWorldbook: async (name, entries = []) => {
+      if (books().has(name)) {
+        await replaceWorldbook(name, entries);
+        return false;
+      }
+      return createWorldbook(name, entries);
+    },
+    deleteWorldbook: async (name) => {
+      if (!books().has(name)) return false;
+      const ok = await rpc.call("wb.deleteBook", { bookId: idOf(name) });
+      books().delete(name);
+      return !!ok;
+    },
+    replaceWorldbook,
+    updateWorldbookWith: async (name, updater) => {
+      const next = await updater(await getWorldbook(name));
+      await replaceWorldbook(name, next);
+      return getWorldbook(name);
+    },
+    createWorldbookEntries: async (name, newEntries) => {
+      const before = await getWorldbook(name);
+      const bookId = idOf(name);
+      let next = Math.max(0, ...before.map((e) => e.uid)) + 1;
+      for (const entry of newEntries) {
+        await rpc.call("wb.createEntry", { bookId, data: toLumiverseEntry({ ...entry, uid: next++ }, { partial: false }) });
+      }
+      const after = await getWorldbook(name);
+      const beforeUids = new Set(before.map((e) => e.uid));
+      return { worldbook: after, new_entries: after.filter((e) => !beforeUids.has(e.uid)) };
+    },
+    deleteWorldbookEntries: async (name, predicate) => {
+      const raw = await rawEntries(name);
+      const deleted = [];
+      for (const r of raw) {
+        const j = toJsrEntry(r, uidFor);
+        if (predicate(j)) {
+          await rpc.call("wb.deleteEntry", { entryId: r.id });
+          deleted.push(j);
+        }
+      }
+      return { worldbook: await getWorldbook(name), deleted_entries: deleted };
+    }
+  };
+  return { fns, refreshBooks };
+}
+
 // src/frontend/index.ts
 function setup(ctx) {
   const rpc = new Rpc(ctx);
@@ -39264,6 +39656,14 @@ function setup(ctx) {
     manager?.addLog("host", level, args);
   };
   const api = createApi({ ctx, rpc, mirror, bus, log });
+  const worldbooks = createWorldbookApi(rpc, mirror);
+  Object.assign(api.shared, worldbooks.fns, {
+    // Deprecated JS-Slash-Runner "lorebook" names that scripts still use.
+    getLorebooks: worldbooks.fns.getWorldbookNames,
+    getCharLorebooks: worldbooks.fns.getCharWorldbookNames,
+    createLorebook: (name) => worldbooks.fns.createWorldbook(name),
+    deleteLorebook: worldbooks.fns.deleteWorldbook
+  });
   installHostGlobals({
     shared: api.shared,
     callers,
@@ -39273,18 +39673,41 @@ function setup(ctx) {
     substitute: api.substitudeMacros
   });
   const unbridge = api.bridgeLumiverseEvents();
+  const refreshBooks = () => worldbooks.refreshBooks().catch((e) => log("warn", "could not load worldbooks", e));
+  const bookListener = bus.on(tavern_events.CHAT_CHANGED, refreshBooks, "host");
   manager = new ScriptManager(ctx, { rpc, mirror, bus, api, callers });
-  const unmount = mountPanel(ctx, manager, rpc);
+  const prefs = { renderCodeBlocks: true };
+  const renderer = startMessageRenderer(ctx, { mirror, bus, api, callers }, { enabled: () => prefs.renderCodeBlocks });
+  const loadPrefs = async () => {
+    try {
+      const saved = await ctx.settings?.get("prefs");
+      if (saved && typeof saved.renderCodeBlocks === "boolean") prefs.renderCodeBlocks = saved.renderCodeBlocks;
+    } catch {
+    }
+  };
+  const savePrefs = async () => {
+    try {
+      await ctx.settings?.set("prefs", { ...prefs });
+    } catch {
+    }
+    renderer.rescan();
+  };
+  const unmount = mountPanel(ctx, manager, rpc, { prefs, savePrefs });
   void (async () => {
+    await loadPrefs();
+    renderer.rescan();
     await manager.load();
     await mirror.ready;
+    await refreshBooks();
     await manager.sync();
     await bus.emit(tavern_events.APP_READY);
     log("info", "ready");
   })().catch((e) => log("error", "startup failed", e));
   return () => {
     unmount();
+    renderer.stop();
     unbridge();
+    bookListener.stop();
     manager?.dispose();
     rpc.dispose();
     removeHostGlobals();

@@ -41,7 +41,12 @@ function pickTextFile(): Promise<string | null> {
   });
 }
 
-export function mountPanel(ctx: SpindleFrontendContext, mgr: ScriptManager, rpc: Rpc) {
+export function mountPanel(
+  ctx: SpindleFrontendContext,
+  mgr: ScriptManager,
+  rpc: Rpc,
+  opts: { prefs: { renderCodeBlocks: boolean }; savePrefs: () => Promise<void> },
+) {
   const tab = ctx.ui.registerDrawerTab({
     id: 'tavern_helper',
     title: 'Tavern Helper',
@@ -140,6 +145,7 @@ export function mountPanel(ctx: SpindleFrontendContext, mgr: ScriptManager, rpc:
   }
 
   function render() {
+    renderCheck.checked = opts.prefs.renderCodeBlocks;
     buttonsBox.replaceChildren(
       ...mgr.buttons().map(({ script, button }) =>
         h('button', { style: BTN + ';margin:2px', textContent: button.name, title: script.name, onclick: () => mgr.clickButton(script, button) }),
@@ -158,6 +164,17 @@ export function mountPanel(ctx: SpindleFrontendContext, mgr: ScriptManager, rpc:
     logBox.scrollTop = logBox.scrollHeight;
   }
 
+  const renderCheck = h('input', { type: 'checkbox', checked: opts.prefs.renderCodeBlocks });
+  renderCheck.onchange = async () => {
+    opts.prefs.renderCodeBlocks = renderCheck.checked;
+    await opts.savePrefs();
+  };
+  const renderToggle = h(
+    'label',
+    { style: 'display:flex;gap:6px;align-items:center;margin:6px 0;font-size:12px' },
+    renderCheck,
+    'Render HTML code blocks in messages as live frames',
+  );
   const addBtn = h('button', {
     style: BTN,
     textContent: '+ New script',
@@ -219,6 +236,7 @@ export function mountPanel(ctx: SpindleFrontendContext, mgr: ScriptManager, rpc:
       style: 'opacity:.75;font-size:12px;margin-bottom:8px',
     }),
     buttonsBox,
+    renderToggle,
     h('div', { style: 'margin:8px 0' }, addBtn, importBtn, exportAll),
     listBox,
     h('h4', { textContent: 'Console', style: 'margin:12px 0 4px' }),
