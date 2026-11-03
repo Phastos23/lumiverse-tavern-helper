@@ -1,0 +1,31 @@
+{
+  "name": "lumiverse-tavern-helper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "node build.mjs",
+    "typecheck": "tsc -p .",
+    "test": "esbuild test/smoke.ts --bundle --platform=node --format=cjs --outfile=test/.smoke.cjs --log-level=error && node test/.smoke.cjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@types/jquery": "^4.0.1",
+    "@types/lodash": "^4.17.27",
+    "esbuild": "^0.28.2",
+    "lumiverse-spindle-types": "^0.6.77",
+    "typescript": "^7.0.2"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
+  },
+  "dependencies": {
+    "jquery": "^4.0.0",
+    "lodash": "^4.18.1",
+    "yaml": "^2.9.1",
+    "zod": "^4.6.7"
+  }
+}

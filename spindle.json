@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "name": "Tavern Helper",
+  "identifier": "tavern_helper",
+  "author": "Phastos23",
+  "github": "https://github.com/Phastos23/lumiverse-tavern-helper",
+  "homepage": "https://github.com/Phastos23/lumiverse-tavern-helper",
+  "description": "Port of JS-Slash-Runner (Tavern-Helper) to Lumiverse. Phase 0: compatibility spike.",
+  "permissions": ["chats", "chat_mutation", "characters", "world_books", "generation", "ui_panels"],
+  "entry_backend": "dist/backend.js",
+  "entry_frontend": "dist/frontend.js"
+}
